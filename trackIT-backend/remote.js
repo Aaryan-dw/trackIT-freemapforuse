@@ -13,23 +13,21 @@ let lat = 27.705; // Start lat (Kathmandu)
 let lng = 85.329; // Start lng
 
 setInterval(() => {
+  // Randomly move a bit
   lat += (Math.random() - 0.5) * 0.001;
   lng += (Math.random() - 0.5) * 0.001;
 
+  // Emit location to all connected clients
   io.emit('location-update', { lat, lng });
 }, 2000);
 
 io.on('connection', (socket) => {
   console.log('New client connected');
-
   socket.on('disconnect', () => {
     console.log('Client disconnected');
   });
 });
 
-// IMPORTANT for deployment
-const PORT = process.env.PORT || 3000;
-
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+server.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
 });
